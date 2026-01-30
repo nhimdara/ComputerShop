@@ -1,7 +1,6 @@
 {
   "name": "shop-website",
   "homepage": "https://laptopShop.github.io/laptopShop/",
-  "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
