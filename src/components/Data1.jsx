@@ -1,6 +1,7 @@
 export const asusLaptops = [
   {
     id: 1,
+    brand: "ASUS",
     model: "ASUS TUF FX608JPR-RV045W",
     series: "TUF Gaming",
     color: "Jaeger Gray",
@@ -40,6 +41,7 @@ export const asusLaptops = [
   },
   {
     id: 2,
+    brand: "ASUS",
     model: "ASUS TUF FX507ZC4",
     series: "TUF Gaming",
     color: "Eclipse Gray",
@@ -70,6 +72,7 @@ export const asusLaptops = [
   },
   {
     id: 3,
+    brand: "ASUS",
     model: "ASUS ROG Strix G16",
     series: "ROG",
     color: "Original Black",
@@ -107,6 +110,7 @@ export const asusLaptops = [
   },
   {
     id: 4,
+    brand: "ASUS",
     model: "ASUS Vivobook Pro 15",
     series: "Vivobook",
     color: "Cool Silver",
@@ -137,6 +141,7 @@ export const asusLaptops = [
   },
   {
     id: 5,
+    brand: "ASUS",
     model: "ASUS ZenBook 14",
     series: "ZenBook",
     color: "Pine Grey",
@@ -161,6 +166,7 @@ export const asusLaptops = [
       gpu: "Intel Arc Graphics",
       keyboard: "White Backlit",
     },
+
     warranty: "2 Years",
     originalBox: true,
 
@@ -168,6 +174,7 @@ export const asusLaptops = [
   },
   {
     id: 6,
+    brand: "ASUS",
     model: "ASUS TUF Dash F15",
     series: "TUF Gaming",
     color: "Moonlight White",
@@ -198,6 +205,7 @@ export const asusLaptops = [
   },
   {
     id: 7,
+    brand: "ASUS",
     model: "ASUS ROG Zephyrus G14",
     series: "ROG",
     color: "Moonlight White",
@@ -228,6 +236,8 @@ export const asusLaptops = [
   },
   {
     id: 8,
+    brand: "ASUS",
+
     model: "ASUS Vivobook S 15",
     series: "Vivobook",
     color: "Indie Black",
@@ -258,6 +268,7 @@ export const asusLaptops = [
   },
   {
     id: 9,
+    brand: "ASUS",
     model: "ASUS ROG Flow X13",
     series: "ROG",
     color: "Off Black",
@@ -288,6 +299,9 @@ export const asusLaptops = [
   },
   {
     id: 10,
+    brand: "ASUS",
+
+
     model: "ASUS TUF Gaming A15",
     series: "TUF Gaming",
     color: "Mecha Gray",
@@ -318,15 +332,15 @@ export const asusLaptops = [
   },
   {
     id: 11,
+    brand: "Dell",
     model: "Dell G15 5530",
-    series: "G Series Gaming",
+    series: "Gaming",
     color: "Dark Shadow Gray",
     year: 2024,
     price: 1399,
     inStock: true,
     image:
-
-      "https://i.pinimg.com/1200x/0a/41/05/0a4105055cf17c2fffd1d4796845ddc6.jpg",
+      "https://1pc.co.il/images/thumbs/0162840_-dell-g15-5530-156-in-rd33-15431_510.jpeg",
     specs: {
       cpu: "Intel Core i7-13650HX",
       cores: 14,
@@ -349,14 +363,14 @@ export const asusLaptops = [
   },
   {
     id: 12,
+    brand: "Dell",
     model: "Dell G16 7630",
-    series: "G Series Gaming",
+    series: "Gaming",
     color: "Obsidian Black",
     year: 2024,
     price: 1599,
     inStock: true,
-    image:
-      "https://i.pinimg.com/736x/49/0b/a1/490ba1b14990609fbc6be7171905bdbe.jpg",
+    image: "https://m.media-amazon.com/images/I/71IV0S6EC8L.jpg",
     specs: {
       cpu: "Intel Core i9-13900HX",
       cores: 24,
@@ -379,6 +393,7 @@ export const asusLaptops = [
   },
   {
     id: 13,
+    brand: "Dell",
     model: "Dell Alienware m16 R2",
     series: "Alienware",
     color: "Lunar Silver",
@@ -386,7 +401,7 @@ export const asusLaptops = [
     price: 2499,
     inStock: true,
     image:
-      "https://i.pinimg.com/736x/06/94/86/069486e17c63b2d4e15a632b767c2387.jpg",
+      "https://i.gadgets360cdn.com/products/large/Dell-Alienware-m16-R2-DB-709x800-1712664217.jpg",
     specs: {
       cpu: "Intel Core Ultra 9 185H",
       cores: 16,
@@ -409,6 +424,7 @@ export const asusLaptops = [
   },
   {
     id: 14,
+    brand: "Dell",
     model: "Dell Alienware x16 R2",
     series: "Alienware",
     color: "Dark Metallic Moon",
@@ -416,7 +432,7 @@ export const asusLaptops = [
     price: 2799,
     inStock: false,
     image:
-      "https://i.pinimg.com/736x/da/30/34/da30349797aea2174a340cf6d2f22ea7.jpg",
+      "https://uaetechdubai.ae/wp-content/uploads/2023/10/Dell_Alienware_x16_R2_Gaming_Laptop_01.png",
     specs: {
       cpu: "Intel Core Ultra 9 185H",
       cores: 16,
@@ -439,14 +455,15 @@ export const asusLaptops = [
   },
   {
     id: 15,
+    brand: "Dell",
     model: "Dell Inspiron 16 Plus 7630",
     series: "Inspiron",
     color: "Platinum Silver",
     year: 2024,
     price: 1199,
     inStock: true,
-    image:
-      "https://i.pinimg.com/1200x/80/d0/c6/80d0c66286425b17c6982b5a39f12c4f.jpg",
+
+    image: "https://m.media-amazon.com/images/I/51FhQDkkWmL.jpg",
     specs: {
       cpu: "Intel Core i7-13700H",
       cores: 14,
@@ -469,6 +486,7 @@ export const asusLaptops = [
   },
   {
     id: 16,
+    brand: "Dell",
     model: "Dell XPS 13 Plus 9320",
     series: "XPS",
     color: "Graphite",
@@ -476,7 +494,7 @@ export const asusLaptops = [
     price: 1699,
     inStock: true,
     image:
-      "https://i.pinimg.com/1200x/3e/fd/cc/3efdcc4e8aae476548b7b363ac0504fb.jpg",
+      "https://fahavicomputers.co.ke/wp-content/uploads/2024/10/DELL-XPS-13-9320.jpg",
     specs: {
       cpu: "Intel Core i7-1360P",
       cores: 12,
@@ -500,6 +518,7 @@ export const asusLaptops = [
   },
   {
     id: 17,
+    brand: "Dell",
     model: "Dell XPS 15 9530",
     series: "XPS",
     color: "Silver",
@@ -530,6 +549,7 @@ export const asusLaptops = [
   },
   {
     id: 18,
+    brand: "Dell",
     model: "Dell Latitude 7440",
     series: "Latitude",
     color: "Carbon Black",
@@ -560,6 +580,7 @@ export const asusLaptops = [
   },
   {
     id: 19,
+    brand: "Dell",
     model: "Dell Latitude 5540",
     series: "Latitude",
     color: "Gray",
@@ -590,6 +611,7 @@ export const asusLaptops = [
   },
   {
     id: 20,
+    brand: "Dell",
     model: "Dell Vostro 5630",
     series: "Vostro",
     color: "Titan Gray",
@@ -597,7 +619,7 @@ export const asusLaptops = [
     price: 899,
     inStock: true,
     image:
-      "https://i.pinimg.com/1200x/af/d5/79/afd5790396270168ccf7309ce3828058.jpg",
+      "https://i.pinimg.com/736x/38/f9/cb/38f9cb78a9e052db485d83f8662aa981.jpg",
     specs: {
       cpu: "Intel Core i5-13500H",
       cores: 12,
@@ -612,6 +634,7 @@ export const asusLaptops = [
         features: ["ComfortView"],
       },
       gpu: "Intel Iris Xe",
+
       keyboard: "Backlit",
     },
     warranty: "1 Year",
@@ -620,14 +643,15 @@ export const asusLaptops = [
   },
   {
     id: 21,
+    brand: "Lenovo",
     model: "Lenovo Legion Pro 7i Gen 9",
-    series: "Legion Pro",
+    series: "Legion",
     color: "Onyx Grey",
     year: 2025,
     price: 2299,
     inStock: true,
     image:
-      "https://i.pinimg.com/1200x/25/ef/7d/25ef7d5724baa04a580744f6a8c9f2f9.jpg",
+      "https://i.pinimg.com/1200x/17/96/5e/17965e8e20317941c7c52ea577973dc6.jpg",
     specs: {
       cpu: "Intel Core i9-14900HX",
       cores: 24,
@@ -659,15 +683,15 @@ export const asusLaptops = [
   },
   {
     id: 22,
+    brand: "Lenovo",
     model: "Lenovo Legion 5 Pro Gen 9",
-
     series: "Legion",
     color: "Storm Grey",
     year: 2025,
     price: 1699,
     inStock: true,
     image:
-      "https://i.pinimg.com/1200x/e0/81/14/e08114ea0067ccaa9d59b50f89ba3582.jpg",
+      "https://i.pinimg.com/736x/92/5f/b2/925fb2adfcedea32edb93abd23a33eac.jpg",
     specs: {
       cpu: "AMD Ryzen 9 8945HS",
       cores: 8,
@@ -697,8 +721,9 @@ export const asusLaptops = [
   },
   {
     id: 23,
+    brand: "Lenovo",
     model: "Lenovo ThinkPad X1 Carbon Gen 12",
-    series: "ThinkPad X1",
+    series: "ThinkPad",
     color: "Thunder Black",
     year: 2025,
     price: 1899,
@@ -733,6 +758,7 @@ export const asusLaptops = [
   },
   {
     id: 24,
+    brand: "Lenovo",
     model: "Lenovo Yoga 9i Gen 9",
     series: "Yoga",
     color: "Tidal Teal",
@@ -769,14 +795,16 @@ export const asusLaptops = [
   },
   {
     id: 25,
+    brand: "Lenovo",
     model: "Lenovo IdeaPad Gaming 3 Gen 8",
-    series: "IdeaPad Gaming",
+    series: "IdeaPad",
     color: "Shadow Black",
     year: 2025,
     price: 899,
     inStock: true,
     image:
-      "https://i.pinimg.com/736x/a6/86/a9/a686a9ee46fc88396412a27f2e566477.jpg",
+
+      "https://p1-ofp.static.pub/medias/23498737439_Gaming315ACH6_202104301141091678812765875.png",
     specs: {
       cpu: "AMD Ryzen 5 7535HS",
       cores: 6,
@@ -799,6 +827,7 @@ export const asusLaptops = [
   },
   {
     id: 26,
+    brand: "Lenovo",
     model: "Lenovo ThinkBook 16 Gen 7",
     series: "ThinkBook",
     color: "Arctic Grey",
@@ -806,7 +835,7 @@ export const asusLaptops = [
     price: 1199,
     inStock: false,
     image:
-      "https://i.pinimg.com/1200x/39/db/5f/39db5fe37c9b488e439629853ac4331f.jpg",
+      "https://p4-ofp.static.pub//fes/cms/2024/07/17/nlp7hjbit9r7qbqb941hykxjino4f3761364.png",
     specs: {
       cpu: "Intel Core Ultra 5 125H",
       cores: 14,
@@ -830,6 +859,7 @@ export const asusLaptops = [
   },
   {
     id: 27,
+    brand: "Lenovo",
     model: "Lenovo LOQ 15IRX9",
     series: "LOQ",
     color: "Luna Grey",
@@ -866,6 +896,7 @@ export const asusLaptops = [
   },
   {
     id: 28,
+    brand: "Lenovo",
     model: "Lenovo Slim 7i Gen 9",
     series: "Slim",
     color: "Cloud Grey",
@@ -901,14 +932,15 @@ export const asusLaptops = [
   },
   {
     id: 29,
+    brand: "Lenovo",
     model: "Lenovo Legion Slim 5 Gen 9",
-    series: "Legion Slim",
+    series: "Legion",
     color: "Storm Grey",
     year: 2025,
     price: 1549,
     inStock: true,
     image:
-      "https://i.pinimg.com/1200x/ce/ce/30/cece30da08c8a9b160d14bd6ba681f56.jpg",
+      "https://dngcorp.vn/wp-content/uploads/2025/04/Laptop-Lenovo-Legion-Pro-5-16IRX9-83DF0046VN_ava1.png",
     specs: {
       cpu: "AMD Ryzen 7 8845HS",
       cores: 8,
@@ -931,6 +963,7 @@ export const asusLaptops = [
       "Gaming Backpack",
       "Mouse",
       "RGB Mouse pad",
+
       "Headset",
       "Cleaning kit",
       "Cooling Pad",
@@ -938,8 +971,9 @@ export const asusLaptops = [
   },
   {
     id: 30,
+    brand: "Lenovo",
     model: "Lenovo IdeaPad Slim 5 Gen 9",
-    series: "IdeaPad Slim",
+    series: "IdeaPad",
     color: "Abyss Blue",
     year: 2025,
     price: 749,
@@ -968,6 +1002,7 @@ export const asusLaptops = [
   },
   {
     id: 31,
+    brand: "MSI",
     model: "MSI Titan 18 HX A14VIG",
     series: "Titan",
     color: "Core Black",
@@ -1006,6 +1041,7 @@ export const asusLaptops = [
   },
   {
     id: 32,
+    brand: "MSI",
     model: "MSI Raider GE78 HX 13VI",
     series: "Raider",
     color: "Star Blue",
@@ -1042,6 +1078,7 @@ export const asusLaptops = [
   },
   {
     id: 33,
+    brand: "MSI",
     model: "MSI Vector GP78 HX 13VG",
     series: "Vector",
     color: "Core Black",
@@ -1072,6 +1109,7 @@ export const asusLaptops = [
   },
   {
     id: 34,
+    brand: "MSI",
     model: "MSI Stealth 16 Studio A13VG",
     series: "Stealth",
     color: "Star Blue",
@@ -1079,7 +1117,7 @@ export const asusLaptops = [
     price: 2199,
     inStock: true,
     image:
-      "https://i.pinimg.com/1200x/c9/2e/63/c92e6386b21dee031bfdba559e1f4af9.jpg",
+      "https://asset.msi.com/resize/image/global/product/product_16687515614eeea1b58358a8027ed9421767ef5b02.png62405b38c58fe0f07fcef2367d8a9ba1/600.png",
     specs: {
       cpu: "Intel Core i9-13900H",
       cores: 14,
@@ -1090,6 +1128,7 @@ export const asusLaptops = [
         size: "16 inch",
         resolution: "2560x1600",
         type: "QHD+ IPS",
+
         refreshRate: "240Hz",
         features: ["G-SYNC", "100% DCI-P3"],
       },
@@ -1102,6 +1141,7 @@ export const asusLaptops = [
   },
   {
     id: 35,
+    brand: "MSI",
     model: "MSI Cyborg 15 A13VF",
     series: "Cyborg",
     color: "Translucent Black",
@@ -1132,6 +1172,7 @@ export const asusLaptops = [
   },
   {
     id: 36,
+    brand: "MSI",
     model: "MSI Katana 17 B13VGK",
     series: "Katana",
     color: "Black",
@@ -1163,6 +1204,7 @@ export const asusLaptops = [
   },
   {
     id: 37,
+    brand: "MSI",
     model: "MSI Sword 15 A13VF",
     series: "Sword",
     color: "Black",
@@ -1193,6 +1235,7 @@ export const asusLaptops = [
   },
   {
     id: 38,
+    brand: "MSI",
     model: "MSI Pulse 17 B13VGK",
     series: "Pulse",
     color: "Core Black",
@@ -1223,6 +1266,7 @@ export const asusLaptops = [
   },
   {
     id: 39,
+    brand: "MSI",
     model: "MSI Crosshair 16 HX D14VFKG",
     series: "Crosshair",
     color: "Moon White",
@@ -1241,6 +1285,7 @@ export const asusLaptops = [
         size: "16 inch",
         resolution: "2560x1600",
         type: "QHD+ IPS",
+
         refreshRate: "240Hz",
         features: ["G-SYNC"],
       },
@@ -1259,6 +1304,7 @@ export const asusLaptops = [
   },
   {
     id: 40,
+    brand: "MSI",
     model: "MSI Bravo 15 C7VFK",
     series: "Bravo",
     color: "Black",
@@ -1289,6 +1335,7 @@ export const asusLaptops = [
   },
   {
     id: 41,
+    brand: "MacBook",
     model: "MacBook Pro 16-inch M4 Max",
     series: "MacBook Pro",
     color: "Space Black",
@@ -1296,7 +1343,7 @@ export const asusLaptops = [
     price: 3499,
     inStock: true,
     image:
-      "https://i.pinimg.com/1200x/93/00/67/9300677cd33806e337ac767af52bcd03.jpg",
+      "https://i.pinimg.com/1200x/cc/38/48/cc3848a2541c91ecb971f757d2db10ba.jpg",
     specs: {
       cpu: "Apple M4 Max",
       cores: 16,
@@ -1325,6 +1372,7 @@ export const asusLaptops = [
   },
   {
     id: 42,
+    brand: "MacBook",
     model: "MacBook Pro 14-inch M4 Pro",
     series: "MacBook Pro",
     color: "Silver",
@@ -1360,6 +1408,7 @@ export const asusLaptops = [
   },
   {
     id: 43,
+    brand: "MacBook",
     model: "MacBook Air 15-inch M4",
     series: "MacBook Air",
     color: "Midnight",
@@ -1367,7 +1416,7 @@ export const asusLaptops = [
     price: 1499,
     inStock: true,
     image:
-      "https://i.pinimg.com/1200x/54/8e/af/548eaf5e30be05bac845dcac082f083a.jpg",
+      "https://i.pinimg.com/1200x/cc/38/48/cc3848a2541c91ecb971f757d2db10ba.jpg",
     specs: {
       cpu: "Apple M4",
       cores: 10,
@@ -1395,10 +1444,12 @@ export const asusLaptops = [
   },
   {
     id: 44,
+    brand: "MacBook",
     model: "MacBook Air 13-inch M4",
     series: "MacBook Air",
     color: "Starlight",
     year: 2025,
+
     price: 1299,
     inStock: true,
     image:
@@ -1430,6 +1481,7 @@ export const asusLaptops = [
   },
   {
     id: 45,
+    brand: "MacBook",
     model: "MacBook Pro 16-inch M4 Pro",
     series: "MacBook Pro",
     color: "Space Black",
@@ -1465,6 +1517,7 @@ export const asusLaptops = [
   },
   {
     id: 46,
+    brand: "MacBook",
     model: "MacBook Air 15-inch M3",
     series: "MacBook Air",
     color: "Space Gray",
@@ -1501,6 +1554,7 @@ export const asusLaptops = [
   },
   {
     id: 47,
+    brand: "MacBook",
     model: "MacBook Pro 14-inch M4 Max",
     series: "MacBook Pro",
     color: "Silver",
@@ -1536,6 +1590,7 @@ export const asusLaptops = [
   },
   {
     id: 48,
+    brand: "MacBook",
     model: "MacBook Air 13-inch M3",
     series: "MacBook Air",
     color: "Midnight",
@@ -1556,6 +1611,7 @@ export const asusLaptops = [
         type: "Liquid Retina",
         refreshRate: "60Hz",
         features: ["500 nits brightness", "P3 Wide Color", "True Tone"],
+
       },
       gpu: "8-Core GPU",
       keyboard: "Backlit Magic Keyboard",
@@ -1571,6 +1627,7 @@ export const asusLaptops = [
   },
   {
     id: 49,
+    brand: "MacBook",
     model: "MacBook Pro 14-inch M4",
     series: "MacBook Pro",
     color: "Space Black",
@@ -1606,6 +1663,7 @@ export const asusLaptops = [
   },
   {
     id: 50,
+    brand: "MacBook",
     model: "MacBook Air 13-inch M4",
     series: "MacBook Air",
     color: "Silver",

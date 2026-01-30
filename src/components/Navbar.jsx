@@ -1,7 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import logo from "../assets/logo.png";
-import { Heart, ShoppingCart, Search, User, Menu, X, ChevronDown, Globe, CheckCircle, Trash2, Plus, Minus } from "lucide-react";
+import {
+  Heart,
+  ShoppingCart,
+  Search,
+  User,
+  Menu,
+  X,
+  ChevronDown,
+  Globe,
+  CheckCircle,
+  Trash2,
+  Plus,
+  Minus,
+} from "lucide-react";
 import { asusLaptops } from "../components/Data1";
 import { useCart } from "../context/CartContext";
 
@@ -44,8 +57,17 @@ const translations = {
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { getTotalItems, getTotalPrice, notification, cartItems, removeFromCart, updateQuantity } = useCart();
-  const [lang, setLang] = useState(() => localStorage.getItem("language") || "en");
+  const {
+    getTotalItems,
+    getTotalPrice,
+    notification,
+    cartItems,
+    removeFromCart,
+    updateQuantity,
+  } = useCart();
+  const [lang, setLang] = useState(
+    () => localStorage.getItem("language") || "en",
+  );
   const t = translations[lang] || translations.en;
 
   const [scrolled, setScrolled] = useState(false);
@@ -70,16 +92,70 @@ const Navbar = () => {
 
   const brands = {
     ASUS: ["TUF Gaming", "ROG", "Vivobook", "ZenBook"],
-    MSI: ["Titan", "Cyborg", "Katana"],
-    Lenovo: ["Legion", "ThinkPad", "LOQ"],
-    Dell: ["Gaming", "Office", "XPS"],
-    MacBook: ["Pro", "Air"],
+    MSI: ["Titan", "Cyborg", "Katana", "Bravo", "Crosshair", "Sword", "Vector"],
+    Lenovo: ["Legion", "ThinkPad", "LOQ", "Slim", "IdeaPad"],
+    Dell: ["Vostro", "Latitude", "XPS", "Inspiron", "Alienware", "Gaming"],
+    MacBook: ["MacBook Pro", "MacBook Air"],
   };
 
   const languages = [
     { code: "en", name: "English", flag: "🇺🇸" },
     { code: "km", name: "ភាសាខ្មែរ", flag: "🇰🇭" },
   ];
+
+  // Scroll to top function
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
+  // Scroll to card section function
+  const scrollToCards = () => {
+    setTimeout(() => {
+      const cardSection = document.querySelector('.card-section');
+      if (cardSection) {
+        cardSection.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }, 100); // Small delay to allow page render
+  };
+
+  // Reset all filters and scroll to top
+  const resetToHome = () => {
+    setActiveBrand(null);
+    setSearchQuery("");
+    setShowSearchResults(false);
+    setSearchOpen(false);
+    
+    // Close all menus
+    setIsDropdownOpen(false);
+    setMobileMenuOpen(false);
+    setMobileDropdownOpen(false);
+    
+    // Scroll to top
+    scrollToTop();
+    
+    // Dispatch custom event to notify HomePage to reset filters
+    window.dispatchEvent(new CustomEvent('resetFilters'));
+  };
+
+  // Handle logo click - navigate to home and scroll to top
+  const handleLogoClick = (e) => {
+    e.preventDefault();
+    resetToHome();
+    navigate("/", { replace: true });
+  };
+
+  // Handle home link click
+  const handleHomeClick = (e) => {
+    e.preventDefault();
+    resetToHome();
+    navigate("/", { replace: true });
+  };
 
   // Trigger cart bounce animation when items change
   useEffect(() => {
@@ -146,7 +222,7 @@ const Navbar = () => {
         (laptop) =>
           laptop.model?.toLowerCase().includes(lowerQuery) ||
           laptop.series?.toLowerCase().includes(lowerQuery) ||
-          laptop.brand?.toLowerCase().includes(lowerQuery)
+          laptop.brand?.toLowerCase().includes(lowerQuery),
       )
       .slice(0, 8);
     setSearchResults(results);
@@ -158,6 +234,7 @@ const Navbar = () => {
     setSearchOpen(false);
     setShowSearchResults(false);
     setSearchQuery("");
+    scrollToTop();
   };
 
   const handleLanguageChange = (code) => {
@@ -166,21 +243,34 @@ const Navbar = () => {
     setShowLangMenu(false);
   };
 
+  // Navigate with brand filter and scroll to cards
   const handleBrandClick = (brand) => {
     setIsDropdownOpen(false);
     setActiveBrand(null);
-    console.log(`Navigate to ${brand} laptops`);
+    setMobileMenuOpen(false);
+    navigate(`/?brand=${encodeURIComponent(brand)}`);
+    // Scroll to card section after navigation
+    setTimeout(() => {
+      scrollToCards();
+    }, 100);
   };
 
+  // Navigate with brand and series filter and scroll to cards
   const handleSeriesClick = (brand, series) => {
     setIsDropdownOpen(false);
     setActiveBrand(null);
     setMobileMenuOpen(false);
-    console.log(`Navigate to ${brand} ${series}`);
+    navigate(
+      `/?brand=${encodeURIComponent(brand)}&series=${encodeURIComponent(series)}`,
+    );
+    // Scroll to card section after navigation
+    setTimeout(() => {
+      scrollToCards();
+    }, 100);
   };
 
   const handleQuantityChange = (itemId, change) => {
-    const item = cartItems.find(i => i.id === itemId);
+    const item = cartItems.find((i) => i.id === itemId);
     if (item) {
       const newQuantity = item.quantity + change;
       if (newQuantity > 0) {
@@ -189,27 +279,55 @@ const Navbar = () => {
     }
   };
 
+  // Handle search submission (Enter key or clicking away)
+  const handleSearchSubmit = () => {
+    if (searchQuery.trim().length >= 2 && searchResults.length > 0) {
+      // If there are search results, navigate to home with search query
+      setSearchOpen(false);
+      setShowSearchResults(false);
+      
+      // Navigate to home and scroll to cards
+      navigate(`/?search=${encodeURIComponent(searchQuery)}`);
+      
+      // Scroll to card section
+      setTimeout(() => {
+        scrollToCards();
+      }, 100);
+    }
+  };
+
+  // Handle Enter key in search
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSearchSubmit();
+    }
+  };
+
   return (
     <>
       {/* Cart Notification Toast */}
       {notification && (
-        <div className="fixed top-24 right-4 z-50 animate-slideInRight">
-          <div className="bg-white rounded-lg shadow-2xl border-l-4 border-green-500 p-4 max-w-sm flex items-start gap-3">
+        <div className="fixed top-20 sm:top-24 right-2 sm:right-4 z-[100] animate-slideInRight w-[calc(100%-1rem)] sm:w-auto max-w-sm">
+          <div className="bg-white rounded-lg shadow-2xl border-l-4 border-green-500 p-3 sm:p-4 flex items-start gap-2 sm:gap-3">
             <div className="flex-shrink-0">
-              <CheckCircle className="text-green-500" size={24} />
+              <CheckCircle className="text-green-500" size={20} />
             </div>
-            <div className="flex-1">
-              <p className="font-bold text-gray-900 mb-1">{notification.message}</p>
+            <div className="flex-1 min-w-0">
+              <p className="font-bold text-gray-900 mb-1 text-sm sm:text-base">
+                {notification.message}
+              </p>
               {notification.product && (
                 <div className="flex items-center gap-2 mt-2">
-                  <img 
-                    src={notification.product.image} 
+                  <img
+                    src={notification.product.image}
                     alt={notification.product.model}
-                    className="w-12 h-12 object-cover rounded"
+                    className="w-10 h-10 sm:w-12 sm:h-12 object-cover rounded flex-shrink-0"
                   />
-                  <div className="text-xs text-gray-600">
-                    <p className="font-semibold">{notification.product.model}</p>
-                    <p>${notification.product.price}</p>
+                  <div className="text-xs text-gray-600 min-w-0">
+                    <p className="font-semibold truncate">
+                      {notification.product.model}
+                    </p>
+                    <p className="text-green-600 font-bold">${notification.product.price}</p>
                   </div>
                 </div>
               )}
@@ -220,30 +338,37 @@ const Navbar = () => {
 
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled ? "bg-white shadow-lg" : "bg-white/95 backdrop-blur-sm"
+          scrolled 
+            ? "bg-gradient-to-r from-[#081b29] via-[#0b2438] to-[#0f2a42] shadow-lg shadow-cyan-500/20" 
+            : "bg-gradient-to-r from-[#081b29] via-[#0b2438] to-[#0f2a42] backdrop-blur-sm"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2 sm:gap-4">
           {/* Logo */}
-          <Link to="/" className=" flex-shrink-0 transition-transform hover:scale-105">
-            <img src={logo} alt="Logo" className="h-40" />
-          </Link>
+          <a
+            href="/"
+            onClick={handleLogoClick}
+            className="flex-shrink-0 transition-transform hover:scale-105"
+          >
+            <img src={logo} alt="Logo" className="h-10 sm:h-12 md:h-16 lg:h-20" />
+          </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex gap-8 items-center">
-            <Link
-              to="/"
-              className="font-medium text-gray-700 hover:text-purple-600 transition-colors relative group"
+          <div className="hidden lg:flex gap-6 xl:gap-8 items-center flex-1 justify-center">
+            <a
+              href="/"
+              onClick={handleHomeClick}
+              className="font-medium text-white hover:text-cyan-400 transition-colors relative group"
             >
               {t.home}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-purple-600 transition-all group-hover:w-full"></span>
-            </Link>
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span>
+            </a>
 
             {/* Models Dropdown */}
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="flex items-center gap-1 font-medium text-gray-700 hover:text-purple-600 transition-colors"
+                className="flex items-center gap-1 font-medium text-white hover:text-cyan-400 transition-colors"
               >
                 {t.models}
                 <ChevronDown
@@ -253,40 +378,40 @@ const Navbar = () => {
               </button>
 
               {isDropdownOpen && (
-                <div className="absolute top-full left-0 mt-2 w-72 bg-white shadow-2xl rounded-xl border border-gray-100 overflow-hidden animate-slideDown">
+                <div className="absolute top-full left-0 mt-2 w-72 bg-[#0f2a42] shadow-2xl shadow-cyan-500/30 rounded-xl border border-cyan-500/30 overflow-hidden animate-slideDown">
                   {Object.entries(brands).map(([brand, series]) => (
-                    <div key={brand} className="border-b last:border-b-0">
+                    <div key={brand} className="border-b border-cyan-500/20 last:border-b-0">
                       <button
                         onClick={() =>
                           setActiveBrand(activeBrand === brand ? null : brand)
                         }
-                        className="w-full text-left px-5 py-3 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 flex justify-between items-center transition-all group"
+                        className="w-full text-left px-5 py-3 hover:bg-cyan-500/10 flex justify-between items-center transition-all group"
                       >
-                        <span className="font-semibold text-gray-800 group-hover:text-purple-600">
+                        <span className="font-semibold text-white group-hover:text-cyan-400">
                           {brand}
                         </span>
                         <ChevronDown
                           size={16}
-                          className={`text-gray-400 transition-transform duration-200 ${
+                          className={`text-cyan-400 transition-transform duration-200 ${
                             activeBrand === brand ? "rotate-180" : ""
                           }`}
                         />
                       </button>
 
                       {activeBrand === brand && (
-                        <div className="bg-gray-50 px-5 py-2 animate-slideDown">
+                        <div className="bg-[#081b29] px-5 py-2 animate-slideDown">
                           {series.map((s) => (
                             <button
                               key={s}
                               onClick={() => handleSeriesClick(brand, s)}
-                              className="block w-full text-left py-2 px-3 text-sm text-gray-600 hover:text-purple-600 hover:bg-white rounded transition-all"
+                              className="block w-full text-left py-2 px-3 text-sm text-gray-300 hover:text-cyan-400 hover:bg-cyan-500/10 rounded transition-all"
                             >
                               {s}
                             </button>
                           ))}
                           <button
                             onClick={() => handleBrandClick(brand)}
-                            className="block w-full text-left py-2 px-3 text-sm font-medium text-purple-600 hover:bg-white rounded transition-all mt-1"
+                            className="block w-full text-left py-2 px-3 text-sm font-medium text-cyan-400 hover:bg-cyan-500/10 rounded transition-all mt-1"
                           >
                             {t.viewAll} {brand} →
                           </button>
@@ -300,23 +425,25 @@ const Navbar = () => {
 
             <Link
               to="/about"
-              className="font-medium text-gray-700 hover:text-purple-600 transition-colors relative group"
+              onClick={scrollToTop}
+              className="font-medium text-white hover:text-cyan-400 transition-colors relative group"
             >
               {t.about}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-purple-600 transition-all group-hover:w-full"></span>
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span>
             </Link>
 
             <Link
               to="/contact"
-              className="font-medium text-gray-700 hover:text-purple-600 transition-colors relative group"
+              onClick={scrollToTop}
+              className="font-medium text-white hover:text-cyan-400 transition-colors relative group"
             >
               {t.contact}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-purple-600 transition-all group-hover:w-full"></span>
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span>
             </Link>
           </div>
 
           {/* Right Side Icons */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-3 lg:gap-4">
             {/* Search */}
             <div className="relative" ref={searchRef}>
               {searchOpen ? (
@@ -325,60 +452,78 @@ const Navbar = () => {
                     ref={inputRef}
                     value={searchQuery}
                     onChange={(e) => handleSearch(e.target.value)}
-                    className="border-2 border-purple-500 rounded-full px-4 py-1.5 w-64 focus:outline-none focus:border-purple-600 transition-all"
+                    onKeyDown={handleKeyDown}
+                    className="border-2 border-cyan-400 bg-[#0f2a42] text-white rounded-full px-3 sm:px-4 py-1.5 w-32 sm:w-48 md:w-64 focus:outline-none focus:border-cyan-300 transition-all text-sm sm:text-base placeholder-gray-400"
                     placeholder={t.searchPlaceholder}
                   />
-                  <X
-                    size={18}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-400 hover:text-gray-600"
-                    onClick={() => {
-                      setSearchOpen(false);
-                      setSearchQuery("");
-                      setShowSearchResults(false);
-                    }}
-                  />
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                    {searchQuery.trim().length >= 2 && (
+                      <Search
+                        onClick={handleSearchSubmit}
+                        className="cursor-pointer text-cyan-400 hover:text-cyan-300 transition-colors"
+                        size={16}
+                      />
+                    )}
+                    <X
+                      size={18}
+                      className="cursor-pointer text-gray-400 hover:text-white"
+                      onClick={() => {
+                        setSearchOpen(false);
+                        setSearchQuery("");
+                        setShowSearchResults(false);
+                      }}
+                    />
+                  </div>
                 </div>
               ) : (
                 <Search
                   onClick={() => setSearchOpen(true)}
-                  className="cursor-pointer text-gray-600 hover:text-purple-600 transition-colors"
-                  size={22}
+                  className="cursor-pointer text-white hover:text-cyan-400 transition-colors"
+                  size={25}
                 />
               )}
 
               {showSearchResults && searchResults.length > 0 && (
-                <div className="absolute top-full right-0 w-80 bg-white shadow-2xl rounded-xl mt-2 border border-gray-100 overflow-hidden max-h-96 overflow-y-auto animate-slideDown">
-                  <div className="bg-gradient-to-r from-purple-50 to-pink-50 px-4 py-2 font-semibold text-sm text-gray-700">
+                <div className="absolute top-full right-0 w-72 sm:w-80 bg-[#0f2a42] shadow-2xl shadow-cyan-500/30 rounded-xl mt-2 border border-cyan-500/30 overflow-hidden max-h-96 overflow-y-auto animate-slideDown">
+                  <div className="bg-gradient-to-r from-cyan-500/20 to-blue-500/20 px-4 py-2 font-semibold text-sm text-white border-b border-cyan-500/30">
                     {t.searchResultsTitle}
                   </div>
                   {searchResults.map((laptop) => (
                     <div
                       key={laptop.id}
                       onClick={() => selectResult(laptop)}
-                      className="p-3 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 cursor-pointer flex gap-3 items-center border-b last:border-b-0 transition-all group"
+                      className="p-3 hover:bg-cyan-500/10 cursor-pointer flex gap-3 items-center border-b border-cyan-500/10 last:border-b-0 transition-all group"
                     >
                       <img
                         src={laptop.image}
-                        className="w-12 h-12 object-cover rounded-lg shadow-sm group-hover:shadow-md transition-shadow"
+                        className="w-12 h-12 object-cover rounded-lg shadow-sm group-hover:shadow-md group-hover:shadow-cyan-500/30 transition-shadow"
                         alt={laptop.model}
                       />
                       <div className="flex-1">
-                        <div className="text-sm font-bold text-gray-800 group-hover:text-purple-600">
+                        <div className="text-sm font-bold text-white group-hover:text-cyan-400">
                           {laptop.model}
                         </div>
-                        <div className="text-xs text-gray-500">
+                        <div className="text-xs text-gray-400">
                           ${laptop.price} • {laptop.brand}
                         </div>
                       </div>
                     </div>
                   ))}
+                  <div className="p-3 border-t border-cyan-500/30 bg-[#081b29]">
+                    <button
+                      onClick={handleSearchSubmit}
+                      className="w-full text-center py-2 text-sm font-medium text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10 rounded transition-all"
+                    >
+                      View all {searchResults.length} results →
+                    </button>
+                  </div>
                 </div>
               )}
 
               {showSearchResults &&
                 searchResults.length === 0 &&
                 searchQuery.trim().length >= 2 && (
-                  <div className="absolute top-full right-0 w-80 bg-white shadow-2xl rounded-xl mt-2 border border-gray-100 p-4 text-center text-gray-500 text-sm">
+                  <div className="absolute top-full right-0 w-72 sm:w-80 bg-[#0f2a42] shadow-2xl shadow-cyan-500/30 rounded-xl mt-2 border border-cyan-500/30 p-4 text-center text-gray-400 text-sm">
                     {t.noResults.replace("{query}", searchQuery)}
                   </div>
                 )}
@@ -388,19 +533,19 @@ const Navbar = () => {
             <div className="relative" ref={langRef}>
               <Globe
                 onClick={() => setShowLangMenu(!showLangMenu)}
-                className="cursor-pointer text-gray-600 hover:text-purple-600 transition-colors"
-                size={22}
+                className="cursor-pointer text-white hover:text-cyan-400 transition-colors"
+                size={25}
               />
               {showLangMenu && (
-                <div className="absolute top-full right-0 mt-2 w-48 bg-white shadow-2xl rounded-xl border border-gray-100 overflow-hidden animate-slideDown">
+                <div className="absolute top-full right-0 mt-2 w-48 bg-[#0f2a42] shadow-2xl shadow-cyan-500/30 rounded-xl border border-cyan-500/30 overflow-hidden animate-slideDown">
                   {languages.map((language) => (
                     <button
                       key={language.code}
                       onClick={() => handleLanguageChange(language.code)}
-                      className={`w-full text-left px-4 py-3 flex items-center gap-3 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 transition-all ${
+                      className={`w-full text-left px-4 py-3 flex items-center gap-3 hover:bg-cyan-500/10 transition-all ${
                         lang === language.code
-                          ? "bg-purple-50 text-purple-600 font-semibold"
-                          : "text-gray-700"
+                          ? "bg-cyan-500/20 text-cyan-400 font-semibold"
+                          : "text-white"
                       }`}
                     >
                       <span className="text-2xl">{language.flag}</span>
@@ -411,142 +556,155 @@ const Navbar = () => {
               )}
             </div>
 
-            {/* User & Cart (Desktop) */}
-            <div className="hidden lg:flex items-center gap-4">
-              <Heart
-                className="cursor-pointer text-gray-600 hover:text-red-500 transition-colors"
-                size={22}
+            {/* Heart Icon */}
+            <Heart
+              className="cursor-pointer text-white hover:text-red-400 transition-colors"
+              size={25}
+            />
+
+            {/* Cart with Dropdown */}
+            <div className="relative" ref={cartRef}>
+              <ShoppingCart
+                onClick={() => setShowCartDropdown(!showCartDropdown)}
+                className={`cursor-pointer text-white hover:text-cyan-400 transition-all ${
+                  cartBounce ? "animate-bounce-cart" : ""
+                }`}
+                size={25}
               />
-              
-              {/* Cart with Dropdown */}
-              <div className="relative" ref={cartRef}>
-                <ShoppingCart
-                  onClick={() => setShowCartDropdown(!showCartDropdown)}
-                  className={`cursor-pointer text-gray-600 hover:text-purple-600 transition-all ${
-                    cartBounce ? 'animate-bounce-cart' : ''
-                  }`}
-                  size={22}
-                />
-                {getTotalItems() > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-purple-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold animate-scale-in">
-                    {getTotalItems()}
-                  </span>
-                )}
+              {getTotalItems() > 0 && (
+                <span className="absolute -top-2 -right-2 bg-cyan-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold animate-scale-in shadow-lg shadow-cyan-500/50">
+                  {getTotalItems()}
+                </span>
+              )}
 
-                {/* Cart Dropdown */}
-                {showCartDropdown && (
-                  <div className="absolute top-full right-0 mt-2 w-96 bg-white shadow-2xl rounded-xl border border-gray-100 overflow-hidden animate-slideDown max-h-[600px] flex flex-col">
-                    {/* Header */}
-                    <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-3">
-                      <h3 className="font-bold text-lg">{t.myCart}</h3>
-                      <p className="text-sm opacity-90">{getTotalItems()} items</p>
+              {/* Cart Dropdown */}
+              {showCartDropdown && (
+                <div className="absolute top-full right-0 mt-2 w-80 sm:w-96 bg-[#0f2a42] shadow-2xl shadow-cyan-500/30 rounded-xl border border-cyan-500/30 overflow-hidden animate-slideDown max-h-[80vh] sm:max-h-[600px] flex flex-col">
+                  {/* Header */}
+                  <div className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white px-4 py-3">
+                    <h3 className="font-bold text-lg">{t.myCart}</h3>
+                    <p className="text-sm opacity-90">
+                      {getTotalItems()} items
+                    </p>
+                  </div>
+
+                  {/* Cart Items */}
+                  {cartItems.length === 0 ? (
+                    <div className="p-8 text-center">
+                      <ShoppingCart
+                        className="mx-auto mb-4 text-gray-500"
+                        size={48}
+                      />
+                      <p className="text-gray-400 mb-4">{t.emptyCart}</p>
+                      <button
+                        onClick={() => {
+                          setShowCartDropdown(false);
+                          resetToHome();
+                          navigate("/", { replace: true });
+                        }}
+                        className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:from-cyan-700 hover:to-blue-700 transition-colors shadow-lg shadow-cyan-500/30"
+                      >
+                        {t.continueShopping}
+                      </button>
                     </div>
+                  ) : (
+                    <>
+                      {/* Items List */}
+                      <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                        {cartItems.map((item) => (
+                          <div
+                            key={item.id}
+                            className="flex gap-3 p-3 bg-[#081b29] rounded-lg hover:bg-cyan-500/10 transition-colors border border-cyan-500/20"
+                          >
+                            <img
+                              src={item.image}
+                              alt={item.model}
+                              className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-lg flex-shrink-0"
+                            />
+                            <div className="flex-1 min-w-0">
+                              <h4 className="font-semibold text-sm text-white mb-1 line-clamp-1">
+                                {item.model}
+                              </h4>
+                              <p className="text-xs text-gray-400 mb-2">
+                                {item.brand}
+                              </p>
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="font-bold text-cyan-400 text-sm sm:text-base">
+                                  ${item.price}
+                                </span>
 
-                    {/* Cart Items */}
-                    {cartItems.length === 0 ? (
-                      <div className="p-8 text-center">
-                        <ShoppingCart className="mx-auto mb-4 text-gray-300" size={48} />
-                        <p className="text-gray-500 mb-4">{t.emptyCart}</p>
-                        <button
-                          onClick={() => {
-                            setShowCartDropdown(false);
-                            navigate("/");
-                          }}
-                          className="bg-purple-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-purple-700 transition-colors"
-                        >
-                          {t.continueShopping}
-                        </button>
-                      </div>
-                    ) : (
-                      <>
-                        {/* Items List */}
-                        <div className="flex-1 overflow-y-auto p-4 space-y-3">
-                          {cartItems.map((item) => (
-                            <div
-                              key={item.id}
-                              className="flex gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-                            >
-                              <img
-                                src={item.image}
-                                alt={item.model}
-                                className="w-20 h-20 object-cover rounded-lg"
-                              />
-                              <div className="flex-1">
-                                <h4 className="font-semibold text-sm text-gray-900 mb-1 line-clamp-1">
-                                  {item.model}
-                                </h4>
-                                <p className="text-xs text-gray-500 mb-2">{item.brand}</p>
-                                <div className="flex items-center justify-between">
-                                  <span className="font-bold text-purple-600">
-                                    ${item.price}
+                                {/* Quantity Controls */}
+                                <div className="flex items-center gap-1 sm:gap-2">
+                                  <button
+                                    onClick={() =>
+                                      handleQuantityChange(item.id, -1)
+                                    }
+                                    className="w-6 h-6 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center transition-colors text-white"
+                                  >
+                                    <Minus size={12} />
+                                  </button>
+                                  <span className="w-8 text-center font-semibold text-white text-sm">
+                                    {item.quantity}
                                   </span>
-                                  
-                                  {/* Quantity Controls */}
-                                  <div className="flex items-center gap-2">
-                                    <button
-                                      onClick={() => handleQuantityChange(item.id, -1)}
-                                      className="w-6 h-6 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center transition-colors"
-                                    >
-                                      <Minus size={12} />
-                                    </button>
-                                    <span className="w-8 text-center font-semibold">
-                                      {item.quantity}
-                                    </span>
-                                    <button
-                                      onClick={() => handleQuantityChange(item.id, 1)}
-                                      className="w-6 h-6 rounded-full bg-purple-600 hover:bg-purple-700 text-white flex items-center justify-center transition-colors"
-                                    >
-                                      <Plus size={12} />
-                                    </button>
-                                  </div>
+                                  <button
+                                    onClick={() =>
+                                      handleQuantityChange(item.id, 1)
+                                    }
+                                    className="w-6 h-6 rounded-full bg-cyan-600 hover:bg-cyan-700 text-white flex items-center justify-center transition-colors shadow-lg shadow-cyan-500/30"
+                                  >
+                                    <Plus size={12} />
+                                  </button>
                                 </div>
                               </div>
-                              
-                              {/* Remove Button */}
-                              <button
-                                onClick={() => removeFromCart(item.id)}
-                                className="text-red-500 hover:text-red-700 transition-colors p-1"
-                                title={t.remove}
-                              >
-                                <Trash2 size={18} />
-                              </button>
                             </div>
-                          ))}
-                        </div>
 
-                        {/* Footer */}
-                        <div className="border-t p-4 bg-gray-50">
-                          <div className="flex items-center justify-between mb-4">
-                            <span className="font-semibold text-gray-700">{t.total}:</span>
-                            <span className="text-2xl font-bold text-purple-600">
-                              ${getTotalPrice().toFixed(2)}
-                            </span>
+                            {/* Remove Button */}
+                            <button
+                              onClick={() => removeFromCart(item.id)}
+                              className="text-red-400 hover:text-red-300 transition-colors p-1 flex-shrink-0"
+                              title={t.remove}
+                            >
+                              <Trash2 size={16} />
+                            </button>
                           </div>
-                          <button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-bold hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg hover:shadow-xl">
-                            {t.checkout}
-                          </button>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                )}
-              </div>
+                        ))}
+                      </div>
 
-              <User
-                className="cursor-pointer text-gray-600 hover:text-purple-600 transition-colors"
-                size={22}
-              />
+                      {/* Footer */}
+                      <div className="border-t border-cyan-500/30 p-4 bg-[#081b29]">
+                        <div className="flex items-center justify-between mb-4">
+                          <span className="font-semibold text-white">
+                            {t.total}:
+                          </span>
+                          <span className="text-2xl font-bold text-cyan-400">
+                            ${getTotalPrice().toFixed(2)}
+                          </span>
+                        </div>
+                        <button className="w-full bg-gradient-to-r from-cyan-600 to-blue-600 text-white py-3 rounded-lg font-bold hover:from-cyan-700 hover:to-blue-700 transition-all shadow-lg shadow-cyan-500/30 hover:shadow-xl hover:shadow-cyan-500/40">
+                          {t.checkout}
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
             </div>
+
+            {/* User Icon */}
+            <User
+              className="cursor-pointer text-white hover:text-cyan-400 transition-colors"
+              size={25}
+            />
 
             {/* Mobile Menu Button */}
             <button
-              className="lg:hidden mobile-menu-button"
+              className="lg:hidden mobile-menu-button ml-1"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? (
-                <X className="text-gray-600" size={24} />
+                <X className="text-white" size={24} />
               ) : (
-                <Menu className="text-gray-600" size={24} />
+                <Menu className="text-white" size={24} />
               )}
             </button>
           </div>
@@ -556,22 +714,22 @@ const Navbar = () => {
         {mobileMenuOpen && (
           <div
             ref={mobileMenuRef}
-            className="lg:hidden bg-white border-t border-gray-100 shadow-lg animate-slideDown"
+            className="lg:hidden bg-gradient-to-b from-[#0b2438] to-[#081b29] border-t border-cyan-500/30 shadow-lg animate-slideDown"
           >
             <div className="max-w-7xl mx-auto px-4 py-4 space-y-2">
-              <Link
-                to="/"
-                className="block py-3 px-4 rounded-lg hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 font-medium text-gray-700 hover:text-purple-600 transition-all"
-                onClick={() => setMobileMenuOpen(false)}
+              <a
+                href="/"
+                onClick={handleHomeClick}
+                className="block w-full text-left py-3 px-4 rounded-lg hover:bg-cyan-500/10 font-medium text-white hover:text-cyan-400 transition-all"
               >
                 {t.home}
-              </Link>
+              </a>
 
               {/* Mobile Models Dropdown */}
               <div>
                 <button
                   onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
-                  className="w-full flex items-center justify-between py-3 px-4 rounded-lg hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 font-medium text-gray-700 hover:text-purple-600 transition-all"
+                  className="w-full flex items-center justify-between py-3 px-4 rounded-lg hover:bg-cyan-500/10 font-medium text-white hover:text-cyan-400 transition-all"
                 >
                   {t.models}
                   <ChevronDown
@@ -588,7 +746,7 @@ const Navbar = () => {
                           onClick={() =>
                             setActiveBrand(activeBrand === brand ? null : brand)
                           }
-                          className="w-full text-left py-2 px-4 rounded-lg hover:bg-gray-50 font-medium text-gray-700 flex justify-between items-center"
+                          className="w-full text-left py-2 px-4 rounded-lg hover:bg-cyan-500/10 font-medium text-white flex justify-between items-center"
                         >
                           {brand}
                           <ChevronDown
@@ -604,11 +762,17 @@ const Navbar = () => {
                               <button
                                 key={s}
                                 onClick={() => handleSeriesClick(brand, s)}
-                                className="block w-full text-left py-2 px-4 text-sm text-gray-600 hover:bg-gray-50 rounded-lg"
+                                className="block w-full text-left py-2 px-4 text-sm text-gray-300 hover:text-cyan-400 hover:bg-cyan-500/10 rounded-lg"
                               >
                                 {s}
                               </button>
                             ))}
+                            <button
+                              onClick={() => handleBrandClick(brand)}
+                              className="block w-full text-left py-2 px-4 text-sm font-medium text-cyan-400 hover:bg-cyan-500/10 rounded-lg mt-2"
+                            >
+                              {t.viewAll} {brand} →
+                            </button>
                           </div>
                         )}
                       </div>
@@ -619,49 +783,32 @@ const Navbar = () => {
 
               <Link
                 to="/about"
-                className="block py-3 px-4 rounded-lg hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 font-medium text-gray-700 hover:text-purple-600 transition-all"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  scrollToTop();
+                }}
+                className="block py-3 px-4 rounded-lg hover:bg-cyan-500/10 font-medium text-white hover:text-cyan-400 transition-all"
               >
                 {t.about}
               </Link>
 
               <Link
                 to="/contact"
-                className="block py-3 px-4 rounded-lg hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 font-medium text-gray-700 hover:text-purple-600 transition-all"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  scrollToTop();
+                }}
+                className="block py-3 px-4 rounded-lg hover:bg-cyan-500/10 font-medium text-white hover:text-cyan-400 transition-all"
               >
                 {t.contact}
               </Link>
-
-              <div className="border-t pt-4 mt-4 flex items-center justify-around">
-                <Heart
-                  className="cursor-pointer text-gray-600 hover:text-red-500 transition-colors"
-                  size={22}
-                />
-                <div className="relative">
-                  <ShoppingCart
-                    onClick={() => setShowCartDropdown(!showCartDropdown)}
-                    className="cursor-pointer text-gray-600 hover:text-purple-600 transition-colors"
-                    size={22}
-                  />
-                  {getTotalItems() > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-purple-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
-                      {getTotalItems()}
-                    </span>
-                  )}
-                </div>
-                <User
-                  className="cursor-pointer text-gray-600 hover:text-purple-600 transition-colors"
-                  size={22}
-                />
-              </div>
             </div>
           </div>
         )}
       </nav>
 
       {/* Spacer */}
-      <div className="h-20" />
+      <div className="h-16 sm:h-20" />
 
       <style jsx>{`
         @keyframes slideDown {
@@ -696,7 +843,8 @@ const Navbar = () => {
         }
 
         @keyframes bounceCart {
-          0%, 100% {
+          0%,
+          100% {
             transform: translateY(0);
           }
           50% {
@@ -718,6 +866,25 @@ const Navbar = () => {
 
         .animate-bounce-cart {
           animation: bounceCart 0.5s ease-in-out;
+        }
+
+        /* Custom scrollbar for cart dropdown */
+        .overflow-y-auto::-webkit-scrollbar {
+          width: 6px;
+        }
+
+        .overflow-y-auto::-webkit-scrollbar-track {
+          background: #081b29;
+          border-radius: 10px;
+        }
+
+        .overflow-y-auto::-webkit-scrollbar-thumb {
+          background: #22d3ee;
+          border-radius: 10px;
+        }
+
+        .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+          background: #06b6d4;
         }
       `}</style>
     </>

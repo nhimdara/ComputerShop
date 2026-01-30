@@ -17,13 +17,18 @@ const Footer = () => {
   ];
 
   const socialLinks = [
-    { label: "Facebook", link: "https://web.facebook.com/?_rdc=1&_rdr#" },
-    { label: "Telegram", link: "https://t.me/pechpor" },
+    {
+      label: "Facebook",
+      icon: FaFacebook,
+      link: "https://web.facebook.com/?_rdc=1&_rdr#",
+    },
+    { label: "Telegram", icon: FaTelegram, link: "https://t.me/pechpor" },
     {
       label: "Messenger",
+      icon: FaFacebookMessenger,
       link: "https://www.messenger.com/t/24242525865351434/",
     },
-    { label: "Twitter", link: "https://twitter.com" },
+    { label: "Twitter", icon: FaTwitter, link: "https://twitter.com" },
   ];
 
   const handleScroll = (id) => {
@@ -35,101 +40,127 @@ const Footer = () => {
 
   return (
     <footer className="w-full bg-gradient-to-br from-[#081b29] via-[#0b2438] to-[#0f2a42] text-white px-4 sm:px-6 md:px-8 lg:px-10 py-8 sm:py-10 md:py-12">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-10">
-        {/* Stay Connected */}
-        <div>
-          <h2 className="text-base sm:text-lg md:text-xl font-semibold">
-            Master Computer
-          </h2>
-          <div className="w-8 h-1 sm:w-10 sm:h-1 bg-cyan-400 my-1.5 sm:my-2 md:my-3 rounded-full" />
-          <p className="text-gray-300 text-xs sm:text-sm md:text-base">
-            Your trusted computer shop for laptops, desktops, and accessories.
-            We provide quality products, fair prices, and reliable support for
-            work, study, and gaming.
-          </p>
-        </div>
-
-        {/* Quick Links */}
-        <div>
-          <h2 className="pl-8 text-base sm:text-lg md:text-xl font-semibold">
-            Quick Links
-          </h2>
-          <div className="w-8 h-1  sm:w-10 sm:h-1 bg-cyan-400 ml-8 my-1.5 sm:my-2 md:my-3 rounded-full" />
-          <ul className="space-y-1 sm:space-y-2 text-gray-300 text-xs sm:text-sm md:text-base">
-            {footerLinks.map((item) => (
-              <li key={item}>
-                <button
-                  onClick={() => handleScroll(item.toLowerCase())}
-                  className="hover:text-cyan-400 transition-colors text-left w-full text-start"
-                >
-                  {item}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Contact */}
-        <div>
-          <h2 className="text-base sm:text-lg md:text-xl font-semibold">
-            Contact
-          </h2>
-          <div className="w-8 h-1 sm:w-10 sm:h-1 bg-cyan-400 my-1.5 sm:my-2 md:my-3 rounded-full" />
-          <div className="text-gray-300 text-xs sm:text-sm md:text-base space-y-1.5 sm:space-y-2">
-            <p>Phnom Penh, Cambodia</p>
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              <MdAddIcCall className="text-cyan-400 text-sm sm:text-base md:text-lg" />
-              <span>(+855) 16 257 290</span>
+      <div className="max-w-7xl mx-auto">
+        {/* Main Footer Content */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-6 md:gap-8 lg:gap-10 mb-8 sm:mb-10">
+          {/* Brand/About Section */}
+          <div className="space-y-4">
+            <div>
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+                DayTech Computer
+              </h2>
+              <div className="w-12 h-1 bg-gradient-to-r from-cyan-400 to-blue-400 my-3 rounded-full" />
             </div>
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              <MdEmail className="text-cyan-400 text-sm sm:text-base md:text-lg" />
-              <span>porpech14@gmail.com</span>
-            </div>
-          </div>
-        </div>
-
-
-        {/* Social */}
-        <div>
-          <h2 className="text-base sm:text-lg md:text-xl font-semibold">
-            Social
-          </h2>
-          <div className="w-8 h-1 sm:w-10 sm:h-1 bg-cyan-400 my-1.5 sm:my-2 md:my-3 rounded-full" />
-          <div>
-            <p>
-              Follow us on social media for latest deals, new arrivals, and tech
-              updates. Stay connected with Master Computer.
+            <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
+              Your trusted computer shop for laptops, desktops, and accessories.
+              Quality products, fair prices, and reliable support for work,
+              study, and gaming.
             </p>
           </div>
-          <div className="flex gap-2 sm:gap-3 md:gap-4">
-            {socialLinks.map((social, i) => {
-              const Icon = [
-                FaFacebook,
-                FaTelegram,
-                FaFacebookMessenger,
-                FaTwitter,
-              ][i];
-              return (
+
+          {/* Quick Links */}
+          <div className="space-y-4">
+            <div>
+              <h2 className="text-lg sm:text-xl font-semibold mb-2">
+                Quick Links
+              </h2>
+              <div className="w-10 h-1 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full" />
+            </div>
+            <ul className="space-y-3">
+              {footerLinks.map((item) => (
+                <li key={item}>
+                  <button
+                    onClick={() =>
+                      handleScroll(item.toLowerCase().replace(" ", "-"))
+                    }
+                    className="text-gray-300 hover:text-cyan-400 transition-all duration-300 transform hover:translate-x-2 flex items-center group"
+                  >
+                    <span className=" bg-cyan-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                    {item}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+
+          {/* Contact Info */}
+          <div className="space-y-4">
+            <div>
+              <h2 className="text-lg sm:text-xl font-semibold mb-2">
+                Contact Info
+              </h2>
+              <div className="w-10 h-1 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full" />
+            </div>
+            <div className="space-y-4 text-gray-300">
+              <p className="flex items-start">
+                <span className="text-cyan-400 mr-3 mt-1">📍</span>
+                Phnom Penh, Cambodia
+              </p>
+              <div className="flex items-center group">
+                <MdAddIcCall className="text-cyan-400 text-lg mr-3 group-hover:scale-110 transition-transform" />
+                <span className="hover:text-cyan-400 transition-colors">
+                  (+855) 16 257 290
+                </span>
+              </div>
+              <div className="flex items-center group">
+                <MdEmail className="text-cyan-400 text-lg mr-3 group-hover:scale-110 transition-transform" />
+                <span className="hover:text-cyan-400 transition-colors break-words">
+                  porpech14@gmail.com
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Social Media */}
+          <div className="space-y-4">
+            <div>
+              <h2 className="text-lg sm:text-xl font-semibold mb-2">
+                Follow Us
+              </h2>
+              <div className="w-10 h-1 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full" />
+            </div>
+            <p className="text-gray-300 text-sm sm:text-base mb-4">
+              Follow us on social media for latest deals, new arrivals, and tech
+              updates.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              {socialLinks.map((social, index) => (
                 <a
-                  key={i}
+                  key={index}
                   href={social.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 sm:p-2.5 md:p-3 rounded-full bg-[#0f2a42] hover:bg-cyan-500 transition-all duration-200 hover:scale-110"
+                  className="group relative p-3 rounded-xl bg-gradient-to-br from-[#0f2a42] to-[#0a1c2e] hover:from-cyan-500 hover:to-blue-600 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/20"
                   aria-label={social.label}
                 >
-                  <Icon className="text-base sm:text-lg md:text-xl" />
+                  <social.icon className="text-xl sm:text-2xl group-hover:scale-110 transition-transform" />
+                  <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs bg-gray-900 text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+                    {social.label}
+                  </span>
                 </a>
-              );
-            })}
+              ))}
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="border-t border-white/10 mt-6 sm:mt-8 md:mt-10 pt-4 sm:pt-5 text-center text-gray-400 text-xs sm:text-sm">
-        © {new Date().getFullYear()}{" "}
-        <span className="text-cyan-400">Master Computer</span>. All Rights
-        Reserved.
+        {/* Divider */}
+        <div className="border-t border-white/10 my-6 sm:my-8"></div>
+
+        {/* Copyright */}
+        <div className="text-center">
+          <p className="text-gray-400 text-sm sm:text-base">
+            © {new Date().getFullYear()}{" "}
+            <span className="text-cyan-400 font-semibold">
+              DayTech Computer
+            </span>
+            .<span className="hidden sm:inline"> All Rights Reserved.</span>
+            <span className="inline sm:hidden"> All rights reserved.</span>
+          </p>
+          <p className="text-gray-500 text-xs mt-2">
+            Made with ❤️ for tech enthusiasts
+          </p>
+        </div>
       </div>
     </footer>
   );
